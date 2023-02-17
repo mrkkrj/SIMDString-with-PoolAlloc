@@ -2,22 +2,22 @@
 PoolAlloc
 =========================================================================================================
 
-This class contains the extracted G3D memory allocator which can be used with SIMDString class. The code doesn't 
-have any additional dependencies, differently than the g3d_allocatr, which pulls in practically *entire* G3D 
-codebase (sic!).
+This class contains the extracted G3D memory allocator which can be used with `SIMDString` class. The code doesn't 
+have any additional dependencies, differently than the g3d_allocatr, which pulls in practically **entire** G3D-base 
+library's code (sic!).
 
-The extracted allocator seems to be implmeneted as a pooled block allocator.
+The extracted allocator seems to be implemeneted as a pooled block allocator.
 
 TODO:
- - experiment with replacing the allocator by C++17's std::pool_memory_resource!
- - package the allocator as a memory_resource
- - compare performance of SIMDString with the G3D allocator vs. pool_memory_resource
+ - experiment with replacing the allocator by C++17's `std::pool_memory_resource`
+ - package the allocator as a *memory_resource*
+ - compare performance of `SIMDString` with the G3D allocator vs. `pool_memory_resource`
 
  OPEN:
-  - SIMDString (which is also extracted from G3D codebase) has a MIT licence, but G3D allocator's files have BSD 
-    licence. Anybody knows what licence has the SIMDSString + PoolAllocator combo?
+  - `SIMDString` (which is also extracted from G3D codebase) has a MIT licence, but G3D allocator's files have BSD 
+    licence. Anybody knows what licence has the `SIMDString` + `PoolAlloc` combo???
 
-Docs for the original SIMDString follows 
+Docs for the original `SIMDString` follows 
 
 --->
 
