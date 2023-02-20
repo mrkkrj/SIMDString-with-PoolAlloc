@@ -98,6 +98,16 @@ public:
      */
     static void alignedFree(void* ptr);
    
+    /** An implementation of memcpy that may be up to 2x as fast as the C library
+        one on some processors.  Guaranteed to have the same behavior as memcpy
+        in all cases. */
+    static void memcpy(void* dst, const void* src, size_t numBytes);
+
+    /** An implementation of memset that may be up to 2x as fast as the C library
+        one on some processors.  Guaranteed to have the same behavior as memset
+        in all cases. */
+    static void memset(void* dst, uint8 value, size_t numBytes);
+
     /**
      When SystemAlloc::malloc fails to allocate memory because the SystemAlloc is
      out of memory, it invokes this handler (if it is not nullptr).

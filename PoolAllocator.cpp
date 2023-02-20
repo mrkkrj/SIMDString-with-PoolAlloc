@@ -838,4 +838,13 @@ void SystemAlloc::alignedFree(void* _ptr) {
     SystemAlloc::free(truePtr);
 }
 
+
+void SystemAlloc::memcpy(void* dst, const void* src, size_t numBytes) {
+    ::memcpy(dst, src, numBytes);
+}
+
+void SystemAlloc::memset(void* dst, uint8 value, size_t numBytes) {
+    ::memset(dst, value, numBytes);
+}
+
 }  // namespace G3D
