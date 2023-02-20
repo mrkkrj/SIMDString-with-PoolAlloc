@@ -21,7 +21,11 @@
 #include <cassert>
 
 #ifndef debugAssertM
-#define debugAssertM(a, b)
+#ifdef G3D_DEBUG
+#define debugAssertM(a, b) assert((a) && (b))
+#else
+#define debugAssertM(a, b) 
+#endif
 #endif
 
 #ifndef alwaysAssertM
@@ -29,40 +33,51 @@
 #endif
 
 #ifndef debugAssert
-#define debugAssert(a)
+#ifdef G3D_DEBUG
+#define debugAssert(a) assert((a))
+#else
+#define debugAssert(a) 
+#endif
 #endif
 
+// OPEN TODO:::
 //#define TRUE true ???? Linux?
 
 
-// OPEN TODO::: from g3dmath.h
+//
+// From: G3D-base.lib/include/G3D-base/g3dmath.h
+//
 
-   /**
-     * True if num is a power of two.
-     */
-    //bool isPow2(int num);
-    //bool isPow2(uint64 num);
+namespace G3D {
 
-inline bool isPow2(int num) {
-    return ((num & -num) == num);
-}
+    /**
+      * True if num is a power of two.
+      */
 
-//inline bool isPow2(uint64 x) {
-//    // See http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/, method #9
-//    return ((x != 0) && !(x & (x - 1)));
-//}
+    inline bool isPow2(int num) {
+        return ((num & -num) == num);
+    }
 
-inline bool isPow2(uint32 x) {
-    // See http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/, method #9
-    return ((x != 0) && !(x & (x - 1)));
-}
+    //inline bool isPow2(uint64 x) {
+    //    // See http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/, method #9
+    //    return ((x != 0) && !(x & (x - 1)));
+    //}
+
+    inline bool isPow2(uint32 x) {
+        // See http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/, method #9
+        return ((x != 0) && !(x & (x - 1)));
+    }
 
     // also there
 #   define max std::max
 
+} // namespace
 
 
-// OPEN TODO::: from format.h
+//
+// From: G3D-base.lib/include/G3D-base/format.h
+//
+
 namespace G3D {
 
     /**
@@ -93,7 +108,46 @@ namespace G3D {
 
 } // namespace
 
-// OPEN TODO::: end ---> format.h
+
+
+// OPEN TODO::: ---------------
+
+static String debugPrint(const String& s) {
+#   ifdef G3D_WINDOWS
+    const int MAX_STRING_LEN = 1024;
+
+    // Windows can't handle really long strings sent to
+    // the console, so we break the string.
+    if (s.size() < MAX_STRING_LEN) {
+        OutputDebugStringA(s.c_str());
+    }
+    else {
+        for (unsigned int i = 0; i < s.size(); i += MAX_STRING_LEN) {
+            const String& sub = s.substr(i, MAX_STRING_LEN);
+            OutputDebugStringA(sub.c_str());
+        }
+    }
+#    else
+    fprintf(stderr, "%s", s.c_str());
+    fflush(stderr);
+#    endif
+
+    return s;
+}
+
+String debugPrintf(const char* fmt ...) {
+    va_list argList;
+    va_start(argList, fmt);
+    String s = G3D::vformat(fmt, argList);  // OPEN TODO::: ---------------
+    va_end(argList);
+
+    return debugPrint(s);
+}
+
+
+// OPEN TODO::: ---------------
+
+
 
 
 // Uncomment the following line to turn off G3D::SystemAlloc memory
@@ -154,14 +208,6 @@ SystemAlloc& SystemAlloc::instance() {
 SystemAlloc::SystemAlloc() 
     : m_outOfMemoryCallback(nullptr) 
 {
-}
-
-void SystemAlloc::memcpy(void* dst, const void* src, size_t numBytes) {
-    ::memcpy(dst, src, numBytes);
-}
-
-void SystemAlloc::memset(void* dst, uint8 value, size_t numBytes) {
-    ::memset(dst, value, numBytes);
 }
 
 

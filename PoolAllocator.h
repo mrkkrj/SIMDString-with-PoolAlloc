@@ -80,16 +80,6 @@ public:
      */
     static void* realloc(void* block, size_t bytes);
 
-    static void resetMallocPerformanceCounters();
-
-    /** 
-       Returns a string describing the current usage of the buffer pools used for
-       optimizing SystemAlloc::malloc, and describing how well SystemAlloc::malloc is using
-        its internal pooled storage.  "heap" memory was slow to
-        allocate; the other data sizes are comparatively fast.
-     */
-    static String mallocStatus();
-
     /**
      Free data allocated with SystemAlloc::malloc.
 
@@ -107,21 +97,7 @@ public:
      Frees memory allocated with alignedMalloc.
      */
     static void alignedFree(void* ptr);
-
-    /** An implementation of memcpy that may be up to 2x as fast as the C library
-        one on some processors.  Guaranteed to have the same behavior as memcpy
-        in all cases. */
-    static void memcpy(void* dst, const void* src, size_t numBytes);
-    
-    /** An implementation of memset that may be up to 2x as fast as the C library
-        one on some processors.  Guaranteed to have the same behavior as memset
-        in all cases. */
-    static void memset(void* dst, uint8 value, size_t numBytes);
-    
-    inline static void setOutOfMemoryCallback(OutOfMemoryCallback c) {
-        instance().m_outOfMemoryCallback = c;
-    }
-
+   
     /**
      When SystemAlloc::malloc fails to allocate memory because the SystemAlloc is
      out of memory, it invokes this handler (if it is not nullptr).
@@ -137,6 +113,19 @@ public:
         return instance().m_outOfMemoryCallback;
     }
 
+    inline static void setOutOfMemoryCallback(OutOfMemoryCallback c) {
+        instance().m_outOfMemoryCallback = c;
+    }
+
+    /**
+       Returns a string describing the current usage of the buffer pools used for
+       optimizing SystemAlloc::malloc, and describing how well SystemAlloc::malloc is using
+        its internal pooled storage.  "heap" memory was slow to
+        allocate; the other data sizes are comparatively fast.
+     */
+    static String mallocStatus();
+
+    static void resetMallocPerformanceCounters();
 };
 
 

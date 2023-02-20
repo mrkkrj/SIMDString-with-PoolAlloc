@@ -37,9 +37,14 @@
 #error Unknown platform
 #endif
 
+/** \def G3D_DEBUG
+    Defined if G3D is built in debug mode. */
+#if !defined(G3D_DEBUG) && (defined(_DEBUG) || defined(G3D_DEBUGRELEASE))
+#   define G3D_DEBUG
+#endif
 
 // OPEN TODO::: 
-//  --> other platforms need also something???
+//  --> other platforms also need something here???
 
 #ifdef G3D_WINDOWS
 #    ifndef WIN32_LEAN_AND_MEAN
