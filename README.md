@@ -8,6 +8,17 @@ library's code (sic!).
 
 The extracted allocator seems to be implemeneted as a pooled block allocator.
 
+Usage:
+
+    #define NO_G3D_ALLOCATOR 1 
+    #include <SIMDString.h>
+    
+    #include <PoolAllocator.h>
+
+    using SIMDString = SIMDString<64, G3D::g3d_pool_allocator<char>>;
+
+    SIMDString strg("0123456789abcdefghijklmnopqrstuvwxyz");
+
 TODO:
  - experiment with replacing the allocator by C++17's `std::pool_memory_resource`
  - package the allocator as a *memory_resource*

@@ -18,20 +18,18 @@
 #define NO_POOL_ALLOCATOR 
 
 #include <SIMDString.h>
+#include <PoolAllocator.h>
 
 #include <string>
 #include <iostream>
 
-char sampleString[44] = "the quick brown fox jumps over the lazy dog";
-
-#include "PoolAllocator.h"
-
 int main()
 {
-    // inject G3D pool allocator
+    // inject the G3D pool allocator
     using SIMDString = SIMDString<64, G3D::g3d_pool_allocator<char>>;
 
-    // basic usage (original tests):
+    // basic usage (from original tests):
+    char sampleString[44] = "the quick brown fox jumps over the lazy dog";
 
     SIMDString simdstring0;
     SIMDString simdstring1('a');
