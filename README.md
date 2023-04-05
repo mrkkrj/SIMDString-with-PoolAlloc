@@ -6,7 +6,7 @@ This class contains the extracted G3D memory allocator which can be used with `S
 have any additional dependencies, differently than the `g3d_allocator`, which pulls in practically the **entire** 
 *G3D-base* library's code (sic!!!).
 
-The extracted allocator seems to be implemeneted as a pooled block allocator.
+Note: the extracted allocator seems to be implemeneted as a **pooled block allocator**.
 
 ## Usage:
 
@@ -22,10 +22,12 @@ The extracted allocator seems to be implemeneted as a pooled block allocator.
 This code can be seen in action in the *SimdStringTest.cpp* source file
 
 ## TODO:
+ - support for older VisualStudio compilers dropped in 'mallocStatus()' as for now -> add it?
+ - add CMake support, test on Linux
  - experiment with replacing the allocator by C++17's `std::pool_memory_resource`
- - package the allocator as a *memory_resource*
+ - package the allocator as a *std::memory_resource* (??)
  - compare performance of `SIMDString` with the G3D allocator vs. `std::pool_memory_resource`
- - switch to using SIMDString as an external github module 
+ - switch to using SIMDString as an external github module (???)
 
 ## OPEN:
   - `SIMDString` (which is also extracted from G3D codebase) has a [MIT-license](https://opensource.org/licenses/MIT), but G3D allocator's files have 

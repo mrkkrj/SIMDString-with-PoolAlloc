@@ -64,6 +64,10 @@
 #endif
 
 
+// OPEN TODO:::
+//#define TRUE true ???? Linux?
+
+
 //
 // From: G3D-base.lib/include/G3D-base/Thread.h
 //

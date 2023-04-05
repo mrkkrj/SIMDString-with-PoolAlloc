@@ -20,14 +20,18 @@
 #define G3D_PoolAllocator_h
 
 
-// OPEN TODO::: ???
+// OPEN TODO::: mrkkrj ???
 #include <string>
 #define String std::string
 
-// OPEN TODO::: ???
+// OPEN TODO::: mrkkrj ???
 #define uint8 std::uint8_t
 #define uint32 std::uint32_t
 
+
+//
+// From: G3D-base.lib/include/G3D-base/System.h
+//
 
 namespace G3D {
 

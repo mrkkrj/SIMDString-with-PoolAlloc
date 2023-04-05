@@ -17,31 +17,11 @@
 
 #include "AllocatorPlatform.h"
 #include "PoolAllocator.h"
+#include "DebugHelpers.h"
 
-#include <cassert>
-
-#ifndef debugAssertM
-#ifdef G3D_DEBUG
-#define debugAssertM(a, b) assert((a) && (b))
-#else
-#define debugAssertM(a, b) 
-#endif
-#endif
-
-#ifndef alwaysAssertM
-#define alwaysAssertM(a, b) assert((a) && (b))
-#endif
-
-#ifndef debugAssert
-#ifdef G3D_DEBUG
-#define debugAssert(a) assert((a))
-#else
-#define debugAssert(a) 
-#endif
-#endif
 
 // OPEN TODO:::
-//#define TRUE true ???? Linux?
+//#define TRUE true ???? Linux? --> in AllocatorPlatform.h (mrkkrj)
 
 
 //
@@ -69,40 +49,14 @@ namespace G3D {
     }
 
     // also there
-#   define max std::max
+#   define max std::max    // OPEN TODO::: in  AllocatorPlatform.h ???
 
 } // namespace
 
 
 //
-// From: G3D-base.lib/include/G3D-base/format.h
+// From: G3D-base.lib/source/System.cpp
 //
-
-namespace G3D {
-
-    /**
-      Produces a string from arguments of the style of printf.  This avoids
-      problems with buffer overflows when using sprintf and makes it easy
-      to use the result functionally.  This function is fast when the resulting
-      string is under 160 characters (not including terminator) and slower
-      when the string is longer.
-     */
-   String format(const char* fmt ...); /*G3D_CHECK_PRINTF_ARGS*/  
-
-    /**
-      Like format, but can be called with the argument list from a ... function.
-     */
-   String vformat(const char* fmt,va_list argPtr); /*G3D_CHECK_VPRINTF_ARGS*/ 
-
-} // namespace
-
-
-namespace {
-   // debug helpers
-   String debugPrint(const String& s);
-   String debugPrintf(const char* fmt ...);
-}
-
 
 // Uncomment the following line to turn off G3D::SystemAlloc memory
 // allocation and use the operating SystemAlloc's malloc.
@@ -802,6 +756,10 @@ void SystemAlloc::memset(void* dst, uint8 value, size_t numBytes) {
 }
 
 
+//
+// impl. of DebugHelpers.h functions
+//
+
 // debug support
 //  - From: G3D-base.lib/source/format.cpp
 
@@ -814,6 +772,19 @@ String format(const char* fmt, ...) {
    return result;
 }
 
+#if defined(_MSC_VER) && (_MSC_VER >= 1300) && (_MSC_VER < 1900)
+String vformat(const char* fmt, va_list argPtr) {
+   // mrkkrj: we don't support older MVSC versions right now! 
+   //  --> OPEN TODO::: needed?????
+   return "Old MSVC compiler, not yet implemented!!!";
+}
+#elif defined(_MSC_VER) && (_MSC_VER < 1300)
+String vformat(const char* fmt, va_list argPtr) {
+   // mrkkrj: we don't support old MVSC versions right now! 
+   //  --> OPEN TODO::: needed?????
+   return "Old MSVC compiler, not yet implemented!!!";
+}
+#else
 String vformat(const char* fmt, va_list argPtr) {
    // If the string is less than 161 characters,
    // allocate it on the stack because this saves
@@ -824,7 +795,7 @@ String vformat(const char* fmt, va_list argPtr) {
    char stackBuffer[bufSize];
 
    va_list argPtrCopy;
-   va_copy(argPtrCopy, argPtr); // mrkkrj: we don't support older MVSC versions rigt now! OPEN TODO::: needed?????
+   va_copy(argPtrCopy, argPtr); 
    int numChars = vsnprintf(stackBuffer, bufSize, fmt, argPtrCopy);
    va_end(argPtrCopy);
 
@@ -842,50 +813,47 @@ String vformat(const char* fmt, va_list argPtr) {
       ::free(heapBuffer);
 
       return result;
-
    }
    else {
-
       return String(stackBuffer);
    }
 }
+#endif
 
 
-}  // namespace G3D
+// debug support
+//  - From: G3D-base.lib/source/debugAssert.cpp
 
-
-namespace {
-
-   String debugPrint(const String& s) {
+static String debugPrint(const String& s) {
 #   ifdef G3D_WINDOWS
-      const int MAX_STRING_LEN = 1024;
+   const int MAX_STRING_LEN = 1024;
 
-      // Windows can't handle really long strings sent to
-      // the console, so we break the string.
-      if (s.size() < MAX_STRING_LEN) {
-         OutputDebugStringA(s.c_str());
+   // Windows can't handle really long strings sent to
+   // the console, so we break the string.
+   if (s.size() < MAX_STRING_LEN) {
+      OutputDebugStringA(s.c_str());
+   }
+   else {
+      for (unsigned int i = 0; i < s.size(); i += MAX_STRING_LEN) {
+         const String& sub = s.substr(i, MAX_STRING_LEN);
+         OutputDebugStringA(sub.c_str());
       }
-      else {
-         for (unsigned int i = 0; i < s.size(); i += MAX_STRING_LEN) {
-            const String& sub = s.substr(i, MAX_STRING_LEN);
-            OutputDebugStringA(sub.c_str());
-         }
-      }
+   }
 #    else
-      fprintf(stderr, "%s", s.c_str());
-      fflush(stderr);
+   fprintf(stderr, "%s", s.c_str());
+   fflush(stderr);
 #    endif
 
-      return s;
-   }
+   return s;
+}
 
-   String debugPrintf(const char* fmt ...) {
-      va_list argList;
-      va_start(argList, fmt);
-      String s = G3D::vformat(fmt, argList);
-      va_end(argList);
+String debugPrintf(const char* fmt ...) {
+   va_list argList;
+   va_start(argList, fmt);
+   String s = G3D::vformat(fmt, argList);
+   va_end(argList);
 
-      return debugPrint(s);
-   }
+   return debugPrint(s);
+}
 
 } // namespace

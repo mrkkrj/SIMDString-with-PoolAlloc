@@ -41,5 +41,8 @@
     <ClInclude Include="..\simdString\SIMDString.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\DebugHelpers.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

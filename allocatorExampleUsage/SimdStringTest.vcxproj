@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="..\simdString\SIMDString.h" />
     <ClInclude Include="..\src\AllocatorPlatform.h" />
+    <ClInclude Include="..\src\DebugHelpers.h" />
     <ClInclude Include="..\src\PoolAllocator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
