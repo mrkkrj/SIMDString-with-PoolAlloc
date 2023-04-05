@@ -118,7 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../simdString;../src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -134,6 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../simdString;../src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,17 +144,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\SIMDString.cpp" />
-    <ClCompile Include="..\PoolAllocator.cpp" />
+    <ClCompile Include="..\simdString\SIMDString.cpp" />
+    <ClCompile Include="..\src\PoolAllocator.cpp" />
     <ClCompile Include="SimdStringTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SIMDString.h" />
-    <ClInclude Include="..\PoolAllocator.h" />
-    <ClInclude Include="..\AllocatorPlatform.h" />
+    <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\README.md" />
+    <ClInclude Include="..\simdString\SIMDString.h" />
+    <ClInclude Include="..\src\AllocatorPlatform.h" />
+    <ClInclude Include="..\src\PoolAllocator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

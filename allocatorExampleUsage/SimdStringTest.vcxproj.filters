@@ -21,25 +21,25 @@
     <ClCompile Include="SimdStringTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\SIMDString.cpp">
+    <ClCompile Include="..\simdString\SIMDString.cpp">
       <Filter>Quelldateien\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\PoolAllocator.cpp">
+    <ClCompile Include="..\src\PoolAllocator.cpp">
       <Filter>Quelldateien\src</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\AllocatorPlatform.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\PoolAllocator.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SIMDString.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\AllocatorPlatform.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PoolAllocator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\simdString\SIMDString.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
