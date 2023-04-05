@@ -2,7 +2,7 @@
   \file DebugHelpers.h
   
   --> from:
-  \file G3D-base.lib/source/System.cpp
+  \file G3D-base.lib/include/G3D-base/format.h
 
   G3D Innovation Engine http://casual-effects.com/g3d
   Copyright 2000-2019, Morgan McGuire
