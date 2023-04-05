@@ -1,7 +1,8 @@
 
 /**
-   \brief Some tests (by mrkkrj) for SIMDString: it's a...
+   \brief Some tests (by mrkkrj) for SIMDString using the local PoolAlloc
    
+   SIMDString:: 
    ------>  
    Very fast string class that follows the std::string/std::basic_string interface.
 
@@ -11,24 +12,23 @@
    - Uses the G3D free-list/block allocator when heap allocation is required
 
    INTERNAL_SIZE is in bytes. It should be chosen to be a multiple of 16.
+   <------
 */
 
-
-#define NO_G3D_ALLOCATOR 1 
-#define NO_POOL_ALLOCATOR 
-
+#define NO_G3D_ALLOCATOR 1 // do not pull the whole G3D in!!!
 #include <SIMDString.h>
-#include <PoolAllocator.h>
+
+#include <PoolAllocator.h> // use the extracted allocator instead
 
 #include <string>
 #include <iostream>
 
 int main()
 {
-    // inject the G3D pool allocator
+    // inject the extracted pool allocator
     using SIMDString = SIMDString<64, G3D::g3d_pool_allocator<char>>;
 
-    // basic usage (from original tests):
+    // 1. basic usage: small string case
     char sampleString[44] = "the quick brown fox jumps over the lazy dog";
 
     SIMDString simdstring0;
@@ -46,12 +46,15 @@ int main()
     SIMDString simdstring10(10, 'b');
     SIMDString simdstring11(simdstring10);
 
-    // invoke alloc:
+    // 2. long string case - invokes pool_alloc:
     //  --> INTERNAL_SIZE = 64
-    SIMDString simdstringXXL("0123456789abcdefghijklmnopqrstuvwxyz hjhjkhkhjkhjkhjk hjkhjkhjkhjkhjkkhjkjhkhjhjkhjhjkjkhhjkhjkhjkhjk khjhjkhjk "
-        "hjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjkhjk");
+    SIMDString simdstringXXL("0123456789abcdefghijklmnopqrstuvwxyz hjhjkhkhjkhjkhjkhjkhjkhjkhjkhjkkhjkjhkhjhjkhjhjkjkhhjkhjkhjkhjkkhjhjkhjk");
     simdstringXXL.append("xxxx");
 
+    // 3. access allocator's statistics:
+    auto status = G3D::SystemAlloc::mallocStatus();
+    std::cout << "SystemAlloc's status:\n" << status << "\n";
+
     // done
-    std::cout << "OK!\n";
+    std::cout << "\n --> done!\n";
 }

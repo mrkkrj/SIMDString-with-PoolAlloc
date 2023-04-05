@@ -19,17 +19,21 @@ Usage:
 
     SIMDString strg("0123456789abcdefghijklmnopqrstuvwxyz");
 
-TODO:
+This code can be seen in action in the *SimdStringTest.cpp* source file
+
+##TODO:
  - experiment with replacing the allocator by C++17's `std::pool_memory_resource`
  - package the allocator as a *memory_resource*
  - compare performance of `SIMDString` with the G3D allocator vs. `std::pool_memory_resource`
  - switch to using SIMDString as an external github module 
 
- OPEN:
+##OPEN:
   - `SIMDString` (which is also extracted from G3D codebase) has a [MIT-license](https://opensource.org/licenses/MIT), but G3D allocator's files have 
     [BSD license](https://opensource.org/licenses/BSD). Anybody knows what licence the `SIMDString` + `PoolAllocator` combo will have???
 
-Docs for the original `SIMDString` follow: 
+
+Docs for the original `SIMDString` follow below: 
+
 
 --->
 

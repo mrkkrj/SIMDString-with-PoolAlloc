@@ -10,6 +10,7 @@
   Available under the BSD License
   <--
 
+  mrkkrj: extracted from original G3D code for use in PoolAllocator's impl.
 */
 
 #pragma once

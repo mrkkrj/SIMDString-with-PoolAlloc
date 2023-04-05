@@ -87,67 +87,21 @@ namespace G3D {
       string is under 160 characters (not including terminator) and slower
       when the string is longer.
      */
-    String format(
-        const char* fmt
-        ...) /*G3D_CHECK_PRINTF_ARGS*/  // OPEN TODO:::
-    {
-        // OPEN TODO:::
-        return "NYI !!!!";
-    }
+   String format(const char* fmt ...); /*G3D_CHECK_PRINTF_ARGS*/  
 
     /**
       Like format, but can be called with the argument list from a ... function.
      */
-    String vformat(
-        const char* fmt,
-        va_list                     argPtr) /*G3D_CHECK_VPRINTF_ARGS*/ // OPEN TODO:::
-    {
-        // OPEN TODO:::
-        return "NYI !!!!";
-    }
+   String vformat(const char* fmt,va_list argPtr); /*G3D_CHECK_VPRINTF_ARGS*/ 
 
 } // namespace
 
 
-
-// OPEN TODO::: ---------------
-
-static String debugPrint(const String& s) {
-#   ifdef G3D_WINDOWS
-    const int MAX_STRING_LEN = 1024;
-
-    // Windows can't handle really long strings sent to
-    // the console, so we break the string.
-    if (s.size() < MAX_STRING_LEN) {
-        OutputDebugStringA(s.c_str());
-    }
-    else {
-        for (unsigned int i = 0; i < s.size(); i += MAX_STRING_LEN) {
-            const String& sub = s.substr(i, MAX_STRING_LEN);
-            OutputDebugStringA(sub.c_str());
-        }
-    }
-#    else
-    fprintf(stderr, "%s", s.c_str());
-    fflush(stderr);
-#    endif
-
-    return s;
+namespace {
+   // debug helpers
+   String debugPrint(const String& s);
+   String debugPrintf(const char* fmt ...);
 }
-
-String debugPrintf(const char* fmt ...) {
-    va_list argList;
-    va_start(argList, fmt);
-    String s = G3D::vformat(fmt, argList);  // OPEN TODO::: ---------------
-    va_end(argList);
-
-    return debugPrint(s);
-}
-
-
-// OPEN TODO::: ---------------
-
-
 
 
 // Uncomment the following line to turn off G3D::SystemAlloc memory
@@ -847,4 +801,91 @@ void SystemAlloc::memset(void* dst, uint8 value, size_t numBytes) {
     ::memset(dst, value, numBytes);
 }
 
+
+// debug support
+//  - From: G3D-base.lib/source/format.cpp
+
+String format(const char* fmt, ...) {
+   va_list argList;
+   va_start(argList, fmt);
+   String result = vformat(fmt, argList);
+   va_end(argList);
+
+   return result;
+}
+
+String vformat(const char* fmt, va_list argPtr) {
+   // If the string is less than 161 characters,
+   // allocate it on the stack because this saves
+   // the malloc/free time.  The number 161 is chosen
+   // to support two lines of text on an 80 character
+   // console (plus the null terminator)
+   const int bufSize = 161;
+   char stackBuffer[bufSize];
+
+   va_list argPtrCopy;
+   va_copy(argPtrCopy, argPtr); // mrkkrj: we don't support older MVSC versions rigt now! OPEN TODO::: needed?????
+   int numChars = vsnprintf(stackBuffer, bufSize, fmt, argPtrCopy);
+   va_end(argPtrCopy);
+
+   if (numChars >= bufSize) {
+      // We didn't allocate a big enough string.
+      char* heapBuffer = (char*)::malloc((numChars + 1) * sizeof(char));
+
+      debugAssert(heapBuffer);
+      int numChars2 = vsnprintf(heapBuffer, numChars + 1, fmt, argPtr);
+      debugAssert(numChars2 == numChars);
+      (void)numChars2;
+
+      String result(heapBuffer);
+
+      ::free(heapBuffer);
+
+      return result;
+
+   }
+   else {
+
+      return String(stackBuffer);
+   }
+}
+
+
 }  // namespace G3D
+
+
+namespace {
+
+   String debugPrint(const String& s) {
+#   ifdef G3D_WINDOWS
+      const int MAX_STRING_LEN = 1024;
+
+      // Windows can't handle really long strings sent to
+      // the console, so we break the string.
+      if (s.size() < MAX_STRING_LEN) {
+         OutputDebugStringA(s.c_str());
+      }
+      else {
+         for (unsigned int i = 0; i < s.size(); i += MAX_STRING_LEN) {
+            const String& sub = s.substr(i, MAX_STRING_LEN);
+            OutputDebugStringA(sub.c_str());
+         }
+      }
+#    else
+      fprintf(stderr, "%s", s.c_str());
+      fflush(stderr);
+#    endif
+
+      return s;
+   }
+
+   String debugPrintf(const char* fmt ...) {
+      va_list argList;
+      va_start(argList, fmt);
+      String s = G3D::vformat(fmt, argList);
+      va_end(argList);
+
+      return debugPrint(s);
+   }
+
+} // namespace

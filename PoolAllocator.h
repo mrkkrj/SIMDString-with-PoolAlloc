@@ -1,5 +1,7 @@
 /**
   \file PoolAllocator.h
+
+  \brief Implementation of G3D::g3d_pool_allocator class
   
   --> from:
   \file G3D-base.lib/include/G3D-base/System.h
@@ -144,7 +146,7 @@ public:
 
  All instances of g3d_pool_allocator are stateless.
 
- mrkkrj: renamed g3d_allocator to g3d_pool_allocator as to enable parallel usage
+ mrkkrj: renamed g3d_allocator to g3d_pool_allocator as to enable parallel usage (!)
 
  \sa G3D::MemoryManager, G3D::SystemAlloc::malloc, G3D::SystemAlloc::free
 */

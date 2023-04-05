@@ -62,20 +62,19 @@ SOFTWARE.
 
 
 #if ! defined(NO_G3D_ALLOCATOR) || (NO_G3D_ALLOCATOR == 0)
-#if defined(NO_POOL_ALLOCATOR)
 #   include <G3D-base/System.h>
-#endif
-#endif
-
-#if !defined(NO_POOL_ALLOCATOR)
-#   include "PoolAllocator.h"
 #endif
 
 #ifdef G3D_System_h
 #define TEMPLATE template<size_t INTERNAL_SIZE = 64, class Allocator = G3D::g3d_allocator<char>>
 #else
-#ifdef G3D_PoolAllocator_h
+
+// TEST::
+#ifdef TEST_SIMD_STRG_ALLOCATOR
+#   include "PoolAllocator.h"
 #define TEMPLATE template<size_t INTERNAL_SIZE = 64, class Allocator = G3D::g3d_pool_allocator<char>>
+// TEST::: end ---
+
 #else
 #define TEMPLATE template<size_t INTERNAL_SIZE = 64, class Allocator = ::std::allocator<char>>
 #endif
