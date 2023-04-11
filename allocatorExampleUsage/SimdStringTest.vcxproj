@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="..\simdString\SIMDString.h" />
     <ClInclude Include="..\src\AllocatorPlatform.h" />
+    <ClInclude Include="..\src\g3d_buffer_pool_resource.h" />
     <ClInclude Include="..\src\DebugHelpers.h" />
     <ClInclude Include="..\src\PoolAllocator.h" />
   </ItemGroup>

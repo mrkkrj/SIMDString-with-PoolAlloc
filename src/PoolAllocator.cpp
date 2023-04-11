@@ -1,5 +1,5 @@
 /**
-  \file PoolAllocator.h
+  \file PoolAllocator.cpp
   
   --> from:
   \file G3D-base.lib/source/System.cpp
