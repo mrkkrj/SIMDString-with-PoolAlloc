@@ -2,11 +2,11 @@
 PoolAllocator
 =========================================================================================================
 
-This class contains the free-list/block memory allocator extracted from G3D project, which can be directly used with the `SIMDString` class. 
+This class contains the free-list/block memory allocator extracted from G3D project, directly useable with the `SIMDString` class. 
 
-The code doesn't have any additional dependencies, differently than the original `g3d_allocator`, which pulls in practically the **entire** *G3D-base* library's code (sic!!!). In this way we can use the highly optimized `SIMDString` with custom local allocator, which wasn't possible before!
+The resulted code doesn't have any additional dependencies, differently than the original `g3d_allocator`, which pulls in practically the **entire** *G3D-base* library's code (sic!!!). In this way we can use the highly optimized `SIMDString` with custom local allocator, which wasn't possible before!
 
-**Note:** the extracted allocator is placed in the */src* subdirectory.
+**Note:** the extracted allocator is placed in the */src* subdirectory.<br>
 **Note:** the extracted allocator is implemeneted as a *pooled block allocator* (i.e. a small block free list allocator).
 
 ## Usage:
