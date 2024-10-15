@@ -1,6 +1,5 @@
-
 /**
-   \brief Shortcut deifinition for SIMDString using the locally defined PoolAllocator
+   \brief Shortcut definition for SIMDString using the local PoolAllocator class
    
    SIMDString:: 
    ------>  
@@ -17,6 +16,6 @@
 
 #define NO_G3D_ALLOCATOR 1 // do not pull the whole G3D in!!!
 #include <SIMDString.h>    // the SIMD optimized string class
-#include <PoolAllocator.h> // the allocator to be used
+#include <PoolAllocator.h> // the allocator matching SIMDString class
 
 using SIMDStringWithPoolAlloc = SIMDString<64, G3D::g3d_pool_allocator<char>>;
