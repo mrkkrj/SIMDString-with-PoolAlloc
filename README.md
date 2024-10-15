@@ -6,7 +6,8 @@ This class contains the extracted G3D memory allocator which can be used with `S
 have any additional dependencies, differently than the `g3d_allocator`, which pulls in practically the **entire** 
 *G3D-base* library's code (sic!!!).
 
-Note: the extracted allocator seems to be implemeneted as a **pooled block allocator** (a small block free list allocator).
+**Note:** the extracted allocator is placed in the */src* subdirectory
+**Note:** the extracted allocator appears to be implemeneted as a *pooled block allocator* (a small block free list allocator).
 
 ## Usage:
 
@@ -19,7 +20,11 @@ Note: the extracted allocator seems to be implemeneted as a **pooled block alloc
 
     SIMDString strg("0123456789abcdefghijklmnopqrstuvwxyz");
 
-This code can be seen in action in the *SimdStringTest.cpp* source file
+This code can be seen in action in the *SimdStringTest.cpp* source file. We can also use a "shortcut" header *SIMDStringWithPoolAlloc.h* as shown below:
+    
+    #include <SIMDStringWithPoolAlloc.h>
+    
+    SIMDStringWizhPoolAlloc strg("0123456789abcdefghijklmnopqrstuvwxyz");
 
 ## TODO:
  - support for older VisualStudio compilers dropped in 'mallocStatus()' as for now -> add it?
@@ -33,15 +38,11 @@ This code can be seen in action in the *SimdStringTest.cpp* source file
     [BSD license](https://opensource.org/licenses/BSD). Anybody knows what licence the `SIMDString` + `PoolAllocator` combo would have???
 
 
-## About SIMDString optimizations: (from a 2022 CppCon presentation)
+## Note: what are SIMDString optimizations: (from a 2022 CppCon presentation)
 
-"From what we’ve seen so far, here are the properties of string usage in graphics. These tell us the requirements our string class should have.
+"From what we’ve seen so far, here are the properties of string usage in graphics. These tell us the requirements our string class should have. Of these, the most important to note are that many strings are small or empty, and many reside in the const segment of the compiled executable.
 
-Of these, the most important to note are that many strings are small or empty, and many reside in the const segment of the compiled executable.
+So, from these **we need optimized:** copy construction, concatenation, conversion from *'const char*'*
 
-So, from these **we need optimized**: copy construction, concatenation, conversion from 'const char*'
-
-And, of course, we can’t have a class with just these operations---we need the behavior of the full std::string and we need it to be as performant as possible. 
-It needs to fit the standard string ecosystem. Many game engines use standard string. We want a drop-in replacement for standard string that implements the full 
-'std::string' API and is performant for large strings and optimized for shorter strings."
+And, of course, we can’t have a class with just these operations --- we need the behavior of the full *std::string* and we need it to be as performant as possible. It needs to fit the standard string ecosystem. Many game engines use standard string. We want a drop-in replacement for standard string that implements the full *'std::string'* API and is performant for large strings and optimized for shorter strings."
 
