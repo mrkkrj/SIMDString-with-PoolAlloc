@@ -7,7 +7,6 @@ This class contains the free-list/block memory allocator extracted from G3D proj
 The code doesn't have any additional dependencies, differently than the original `g3d_allocator`, which pulls in practically the **entire** *G3D-base* library's code (sic!!!). In this way we can use the highly optimized `SIMDString` with custom local allocator, which wasn't possible before!
 
 **Note:** the extracted allocator is placed in the */src* subdirectory
-
 **Note:** the extracted allocator is implemeneted as a *pooled block allocator* (a small block free list allocator).
 
 ## Usage:
@@ -38,7 +37,7 @@ Alternatively, we can also use a "shortcut" header *SIMDStringWithPoolAlloc.h* a
 
 ## OPEN:
   - `SIMDString` (which is also extracted from G3D codebase) has a [MIT-license](https://opensource.org/licenses/MIT), but G3D allocator's files have 
-    [BSD license](https://opensource.org/licenses/BSD). Does anybody knos what licence the `SIMDString` + `PoolAllocator` combo would have ???
+    [BSD license](https://opensource.org/licenses/BSD). Does anybody know what licence the `SIMDString` + `PoolAllocator` combo would have ???
 
 
 ## Note: what are SIMDString optimizations: 
