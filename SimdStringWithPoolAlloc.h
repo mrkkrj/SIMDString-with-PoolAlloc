@@ -9,7 +9,7 @@
    - Recognizes constant segment strings and avoids copying them
    - Stores small strings internally to avoid heap allocation
    - Uses SSE instructions to copy internal strings
-   - Uses the G3D free-list/block allocator when heap allocation is required
+   - Uses the G3D free-list/block (or other !!!) allocator when heap allocation is required
 
    INTERNAL_SIZE is in bytes. It should be chosen to be a multiple of 16.
    <------
