@@ -28,6 +28,16 @@ Alternatively, we can also use a "shortcut" header *SIMDStringWithPoolAlloc.h* a
     
     SIMDStringWithPoolAlloc strg("0123456789abcdefghijklmnopqrstuvwxyz");
 
+The extracted *PoolAllocator* has been also wrapped in a *pmr::memory_resource*, so it can be also used independently from the *SIMDString* class as shown in the example code below:
+
+    #include <memory_resource>
+    #include <g3d_buffer_pool_resource.h>
+
+    g3d_buffer_pool_resource memRes;
+
+    std::pmr::string pmrstring2("0123456789abcdefghijklmnopqrstuvwxyz", &memRes);
+
+
 ## TODO:
  - support for older VisualStudio compilers dropped in 'mallocStatus()' as for now -> add it?
  - add CMake support, test on Linux
