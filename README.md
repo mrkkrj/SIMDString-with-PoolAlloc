@@ -33,15 +33,14 @@ The extracted *PoolAllocator* has been also wrapped in a *pmr::memory_resource*,
     #include <memory_resource>
     #include <g3d_buffer_pool_resource.h>
 
-    g3d_buffer_pool_resource memRes;
+    g3d_buffer_pool_resource pool_resource;
 
-    std::pmr::string strg("0123456789abcdefghijklmnopqrstuvwxyz", &memRes);
+    std::pmr::string strg("0123456789abcdefghijklmnopqrstuvwxyz", &pool_resource);
 
 
 ## TODO:
  - support for older VisualStudio compilers dropped in 'mallocStatus()' as for now -> add it?
  - add CMake support, test on Linux
- - package the allocator as a *std::memory_resource* (??)
  - compare performance of `SIMDString` with the G3D allocator vs. `std::pool_memory_resource`
  - switch to using SIMDString as an external github module (???)
 
@@ -50,7 +49,7 @@ The extracted *PoolAllocator* has been also wrapped in a *pmr::memory_resource*,
     [BSD license](https://opensource.org/licenses/BSD). Does anybody know what licence the `SIMDString` + `PoolAllocator` combo would have ???
 
 
-## Note: what are SIMDString optimizations: 
+## Note: what are SIMDString optimizations? 
 
 - from a 2022 CppCon presentation:
 
