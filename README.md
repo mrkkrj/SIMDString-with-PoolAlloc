@@ -35,7 +35,7 @@ The extracted *PoolAllocator* has been also wrapped in a *pmr::memory_resource*,
 
     g3d_buffer_pool_resource memRes;
 
-    std::pmr::string pmrstring2("0123456789abcdefghijklmnopqrstuvwxyz", &memRes);
+    std::pmr::string strg("0123456789abcdefghijklmnopqrstuvwxyz", &memRes);
 
 
 ## TODO:
