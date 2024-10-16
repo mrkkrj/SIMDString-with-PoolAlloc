@@ -12,8 +12,7 @@ The resulted code doesn't have any additional dependencies, differently than the
 ## Usage:
 
     #define NO_G3D_ALLOCATOR 1 
-    #include <SIMDString.h>
-    
+    #include <SIMDString.h>    
     #include <PoolAllocator.h>
 
     using SIMDString = SIMDString<64, G3D::g3d_pool_allocator<char>>;
