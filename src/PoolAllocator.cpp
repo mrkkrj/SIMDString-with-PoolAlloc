@@ -82,6 +82,10 @@ namespace G3D {
 #   include <sys/time.h>
 #   include <pthread.h>
 
+// fix on Linux
+#   include <string.h>
+#   include <stdarg.h>
+
 #elif defined(G3D_OSX)
 
     #include <stdlib.h>

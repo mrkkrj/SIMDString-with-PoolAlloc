@@ -14,6 +14,14 @@ if(MINGW)
     message( FATAL_ERROR "SIMDString only supports the Microsoft compiler on Windows!" )
 endif()
 
+if(CMAKE_HOST_UNIX)
+    # GCC support C++17 but not quite all of it! :-OOO
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 8.0)
+        message( STATUS "GCC version: "  ${CMAKE_CXX_COMPILER_VERSION})
+        message( FATAL_ERROR "std::memory_resource requires GCC 8.0 and later!" )
+    endif()
+endif()
+
 ################################################################################
 # Use solution folders feature
 ################################################################################
