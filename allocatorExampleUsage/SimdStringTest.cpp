@@ -1,4 +1,3 @@
-
 /**
    \brief Some tests (by mrkkrj) for SIMDString using the local PoolAlloc
    
