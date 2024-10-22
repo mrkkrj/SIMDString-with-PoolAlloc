@@ -41,7 +41,7 @@ The extracted *PoolAllocator* has been also wrapped in a *pmr::memory_resource*,
  - support for older VisualStudio compilers dropped in 'mallocStatus()' as for now -> add it?
  - add CMake support, test on Linux
  - compare performance of `SIMDString` with the G3D allocator vs. `std::pool_memory_resource`
- - switch to using SIMDString as an external github module (???)
+ - switch to using SIMDString as an external github module (important !!!)
 
 ## OPEN:
   - `SIMDString` (which is also extracted from G3D codebase) has a [MIT-license](https://opensource.org/licenses/MIT), but G3D allocator's files have 

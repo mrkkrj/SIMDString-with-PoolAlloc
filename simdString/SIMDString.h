@@ -810,7 +810,12 @@ public:
             return append(c);
         }
         replace(pos - m_data, 0, 1, c);
+
+#ifdef _MSC_VER
         return m_data + pos;
+#else
+        return iterator(data() + (pos - begin()));
+#endif
     }
 
     constexpr SIMDString& insert(const_iterator pos, std::initializer_list<value_type> ilist) {

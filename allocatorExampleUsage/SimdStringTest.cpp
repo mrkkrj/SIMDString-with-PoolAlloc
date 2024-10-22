@@ -23,8 +23,10 @@
 #include <iostream>
 
 #if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L) // C++17
-#include <memory_resource>
-#include <g3d_buffer_pool_resource.h>
+#ifndef ExcludeG3dBufferPoolResource
+    #include <memory_resource>
+    #include <g3d_buffer_pool_resource.h>
+#endif
 #endif
 
 int main()
@@ -60,7 +62,7 @@ int main()
     std::cout << "SystemAlloc's status:\n" << status << "\n";
 
 #if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L) // C++17
-
+#ifndef ExcludeG3dBufferPoolResource
     // 4. use std::pool_memory_resource
     G3D::SystemAlloc::resetMallocPerformanceCounters();
 
@@ -123,6 +125,7 @@ int main()
     pmrstringXXL.append("xxxx");
 
     std::cout << "\n" << "SystemAlloc's status (std::pmr):\n" << G3D::SystemAlloc::mallocStatus() << "\n";
+#endif
 #endif
 
     // done

@@ -9,16 +9,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(SimdStringTest VERSION 0.1.0 LANGUAGES CXX)
 
+option(ExcludeG3dBufferPoolResource "ExcludeG3dBufferPoolResource" OFF)
+
 if(MINGW)
-    # MinGW on Windows!!!
+    # MinGW on Windows!
     message( FATAL_ERROR "SIMDString only supports the Microsoft compiler on Windows!" )
 endif()
 
 if(CMAKE_HOST_UNIX)
-    # GCC support C++17 but not quite all of it! :-OOO
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 8.0)
-        message( STATUS "GCC version: "  ${CMAKE_CXX_COMPILER_VERSION})
-        message( FATAL_ERROR "std::memory_resource requires GCC 8.0 and later!" )
+    if(NOT ExcludeG3dBufferPoolResource)
+        # GCC support C++17 but not quite all of it! :-OOO
+        if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 8.0)
+            message( STATUS "GCC version: "  ${CMAKE_CXX_COMPILER_VERSION})
+            message( FATAL_ERROR "std::memory_resource requires GCC 8.0 and later!" )
+        endif()
     endif()
 endif()
 
@@ -86,6 +90,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 if(MSVC)
    # quiet warnings related to fopen, sscanf, etc.
    target_compile_definitions(${PROJECT_NAME} PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
+
+if(ExcludeG3dBufferPoolResource)
+    add_definitions( -DExcludeG3dBufferPoolResource=1)
 endif()
 
 ################################################################################
